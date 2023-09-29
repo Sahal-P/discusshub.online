@@ -14,7 +14,9 @@ const Editor: FC<EditorProps> = ({subredditId}) => {
     const {} = useForm<PostCreationRequest>({
         resolver: zodResolver(Postvalidator),
         defaultValues: {
-            subredditId
+            subredditId,
+            title: '',
+            content: null
         }
     })
   return (
