@@ -1,8 +1,9 @@
+// "use client"
+
 import Editor from "@/components/Editor";
 import { Button } from "@/components/ui/Button";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
-import { FC } from "react";
 
 interface PageProps {
   params: {
@@ -10,7 +11,8 @@ interface PageProps {
   };
 }
 
-const page = async ({ params }: PageProps) => {
+const Page = async ({ params }: PageProps) => {
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const subreddit = await db.subreddit.findFirst({
     where: {
       name: params.slug,
@@ -44,4 +46,4 @@ const page = async ({ params }: PageProps) => {
   );
 };
 
-export default page;
+export default Page;
