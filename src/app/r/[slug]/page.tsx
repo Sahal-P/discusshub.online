@@ -4,6 +4,7 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Skeleton from '@mui/material/Skeleton';
+import PostFeed from "@/components/PostFeed";
 
 
 interface PageProps {
@@ -39,6 +40,7 @@ const page = async ({ params }: PageProps) => {
       <h1 className="font-bold text-3xl md:text-4xl h-14">r/{subreddit.name}</h1>
       {/* <Skeleton variant="rounded" width={230} height={50} /> */}
       <MiniCreatePost session={session} />
+      <PostFeed initialPosts={subreddit.posts} subredditName={subreddit.name}  />
     </>
   );
 };
