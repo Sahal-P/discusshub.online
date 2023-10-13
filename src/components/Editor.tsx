@@ -1,13 +1,7 @@
 "use client";
 
 import TextareaAutosize from "react-textarea-autosize";
-import {
-  FC,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PostCreationRequest, Postvalidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,8 +9,9 @@ import EditorJs from "@editorjs/editorjs";
 import { uploadFiles } from "@/lib/uploadthing";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
+import { useCustomToast } from "@/hooks/use-custom-toast";
 
 interface EditorProps {
   subredditId: string;
@@ -44,6 +39,8 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
   const _titleRef = useRef<HTMLTextAreaElement>(null);
 
   const pathName = usePathname();
+  const { loginToast } = useCustomToast();
+
   const router = useRouter();
 
   const initializeEditor = useCallback(async () => {
@@ -130,7 +127,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     };
 
     if (isMounted) {
-      init()
+      init();
       return () => {
         ref.current?.destroy();
         ref.current = undefined;
@@ -155,8 +152,13 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       const { data } = await axios.post("/api/subreddit/post/create", payload);
       return data;
     },
-    onError: () => {
+    onError: (err) => {
       // setIsLoading(false);
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 401) {
+          return loginToast();
+        }
+      }
       return toast({
         title: "Somthing went wrong",
         description: "Your post were not published, please try again later.",
