@@ -1,3 +1,5 @@
+"use client"
+
 import dynamic from "next/dynamic";
 import Table from '@editorjs/table';
 import Image from "next/image";
