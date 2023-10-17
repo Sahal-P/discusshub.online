@@ -8,6 +8,7 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Post from "./Post";
+import { Loader2 } from "lucide-react";
 
 interface PostFeedProps {
   initialPosts: ExtendedPost[];
@@ -71,6 +72,9 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
         }
 
       })}
+      {isFetchingNextPage && <li>
+        <Loader2/>
+      </li>}
     </ul>
   );
 };
