@@ -3,10 +3,11 @@ import Redis, { RedisOptions } from 'ioredis';
 
 
 function getRedisConfiguration(): {
-  port: string | undefined;
+  port: number | undefined;
   host: string | undefined;
 } {
-  return redis;
+  const config = redis;
+  return config;
 }
  
 export function createRedisInstance(
@@ -29,7 +30,7 @@ export function createRedisInstance(
     };
  
     if (config.port) {
-      options.port = parseInt(config.port);
+      options.port = config.port;
     }
  
     // if (config.password) {

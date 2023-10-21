@@ -25,6 +25,11 @@ const buttonVariants = cva(
         xs: 'h-8 px-1.5 rounded-sm',
         lg: 'h-11 px-8 rounded-md',
       },
+      mediaSize: {
+        sm: 'max-sm:h-9 max-sm:text-xs max-md:w-40 max-sm:px-2 ',
+        xs: 'h-8 px-1.5 rounded-sm',
+        lg: 'h-11 px-8 rounded-md',
+      },
     },
     defaultVariants: {
       variant: 'default',

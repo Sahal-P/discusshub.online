@@ -18,7 +18,7 @@ import { toast } from "@/hooks/use-toast";
 import { useCustomToast } from "@/hooks/use-custom-toast";
 
 type ExtendedComment = Comment & {
-  vote: CommentVote[];
+  votes: CommentVote[];
   author: User;
 };
 

@@ -1,7 +1,6 @@
 "use client"
 
 import dynamic from "next/dynamic";
-import Table from '@editorjs/table';
 import Image from "next/image";
 import { FC } from "react";
 
@@ -57,31 +56,31 @@ function CustomListRenderer({ data }: any) {
     );
   }
 
-function CustomTableRenderer({data}: any) {
-    const table = document.createElement('table');
+// function CustomTableRenderer({data}: any) {
+//     const table = document.createElement('table');
   
-    // Create the table header row.
-    const headerRow = document.createElement('tr');
-    for (const heading of data.content[0]) {
-      const headerCell = document.createElement('th');
-      headerCell.textContent = heading;
-      headerRow.appendChild(headerCell);
-    }
-    table.appendChild(headerRow);
+//     // Create the table header row.
+//     const headerRow = document.createElement('tr');
+//     for (const heading of data.content[0]) {
+//       const headerCell = document.createElement('th');
+//       headerCell.textContent = heading;
+//       headerRow.appendChild(headerCell);
+//     }
+//     table.appendChild(headerRow);
   
-    // Create the table body rows.
-    for (const row of data.content.slice(1)) {
-      const bodyRow = document.createElement('tr');
-      for (const cell of row) {
-        const bodyCell = document.createElement('td');
-        bodyCell.textContent = cell;
-        bodyRow.appendChild(bodyCell);
-      }
-      table.appendChild(bodyRow);
-    }
+//     // Create the table body rows.
+//     for (const row of data.content.slice(1)) {
+//       const bodyRow = document.createElement('tr');
+//       for (const cell of row) {
+//         const bodyCell = document.createElement('td');
+//         bodyCell.textContent = cell;
+//         bodyRow.appendChild(bodyCell);
+//       }
+//       table.appendChild(bodyRow);
+//     }
   
-    return table;
-  }
+//     return table;
+//   }
   
 
 const renderer = {

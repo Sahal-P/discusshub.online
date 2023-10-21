@@ -1,6 +1,5 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { Postvalidator } from "@/lib/validators/post";
 import { z } from "zod";
 
 export async function GET(req: Request) {

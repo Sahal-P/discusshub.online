@@ -3,8 +3,8 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
-import Skeleton from '@mui/material/Skeleton';
 import PostFeed from "@/components/PostFeed";
+import { ExtendedPost } from "@/types/db";
 
 
 interface PageProps {
@@ -36,7 +36,6 @@ const page = async ({ params }: PageProps) => {
       },
     },
   });
-
   if (!subreddit) return notFound();
   return (
     <>
