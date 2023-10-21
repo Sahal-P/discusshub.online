@@ -1,7 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import {  } from "@/lib/validators/post";
-import { z } from "zod";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -14,6 +11,7 @@ export async function GET(req: Request) {
       where: {
         name: {
           startsWith: q,
+          mode: "insensitive",
         },
       },
       include: {

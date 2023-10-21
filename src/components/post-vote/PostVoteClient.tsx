@@ -65,8 +65,8 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
     onMutate: (type: VoteType) => {
       if (currentVote === type) {
         setCurrentVote(undefined)
-        if (type === 'UP') setVotesAmt((prev) => prev-1)
-        else if (type === 'Down') setVotesAmt((prev) => prev +1)
+        if (type === 'UP') setVotesAmt((prev) => prev - 1)
+        else if (type === 'Down') setVotesAmt((prev) => prev + 1)
       } else {
         setCurrentVote(type)
         if (type === 'UP') setVotesAmt((prev) => prev + (currentVote ? 2 : 1))

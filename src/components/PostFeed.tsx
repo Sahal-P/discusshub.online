@@ -22,7 +22,6 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
     root: lastPostRef.current,
     threshold: 1,
   });
-
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["infinite-post-query"],
     async ({ pageParam = 1 }) => {
@@ -59,7 +58,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
 
         const currentVote = post.votes.find(
           (vote) => vote.userId === session?.user.id
-        );
+        );  
         if (index === posts.length - 1) {
           return (
             <li key={index} ref={ref}>
@@ -67,14 +66,15 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
             </li>
           );
         }else {
-
-          return <Post currentVote={currentVote} votesCount={votesCount} commentCount={post.comments.length} subredditName={post.subreddit.name} post={post} key={index}/>
+          return <Post key={index} currentVote={currentVote} votesCount={votesCount} commentCount={post.comments.length} subredditName={post.subreddit.name} post={post} />
         }
 
       })}
-      {isFetchingNextPage && <li>
-        <Loader2/>
-      </li>}
+      {isFetchingNextPage && (
+        <li className='flex justify-center' key={'loading'}>
+          <Loader2 className='w-6 h-6 text-zinc-500 animate-spin' />
+        </li>
+      )}
     </ul>
   );
 };

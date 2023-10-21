@@ -1,5 +1,6 @@
 import CustomFeed from "@/components/CustomFeed";
 import GeneralFeed from "@/components/GeneralFeed";
+import RecomendedCommunities from "@/components/RecomendedCommunities";
 import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { HomeIcon } from "lucide-react";
@@ -35,7 +36,18 @@ export default async function Home() {
               className: 'w-full mt-4 mb-6'
             })} href='/r/create'>Create Community</Link>
           </div>
+
+          
+            {session && (
+              <div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
+              <div className="flex justify-between gap-x-4 py-3">
+                <RecomendedCommunities />
+              </div>
+            </div>
+            )}
+          
         </div>
+        
       </div>
     </>
   );

@@ -2,7 +2,6 @@ import CommentsSection from "@/components/CommentsSection";
 import EditorOutput from "@/components/EditorOutput";
 import PostVoteServer from "@/components/post-vote/PostVoteServer";
 import { buttonVariants } from "@/components/ui/Button";
-import { redis } from "@/config";
 import { db } from "@/lib/db";
 import { createRedisInstance } from "@/lib/redis";
 import { formatTimeToNow } from "@/lib/utils";
@@ -10,7 +9,7 @@ import { CachedPost, CachedPostType } from "@/types/redis";
 import { Post, User, Vote } from "@prisma/client";
 import { ArrowBigDown, ArrowBigUp, Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
-import { FC, Suspense } from "react";
+import { Suspense } from "react";
 
 interface PageProps {
   params: {
@@ -28,9 +27,14 @@ const page = async ({ params }: PageProps) => {
     `post:${params.postId}`
   )) as unknown as CachedPostType;
   if (cachedPost && cachedPost.post){
-    cachedPostData = JSON.parse(cachedPost.post)
+    try {
+      cachedPostData = JSON.parse(JSON.stringify(cachedPost.post));
+    } catch (error) {
+      cachedPostData = null; 
+    }
+  
   }
-  let post: (Post & { vote: Vote[]; author: User }) | null = null;
+  let post: (Post & { votes: Vote[]; author: User }) | null = null;
 
   if (!cachedPostData) {
     post = await db.post.findFirst({
@@ -43,7 +47,6 @@ const page = async ({ params }: PageProps) => {
       },
     });
   }
-    console.log(cachedPostData?.content, typeof cachedPostData?.content)
   if (!post && !cachedPostData) return notFound();
   return (
     <div>
@@ -66,14 +69,14 @@ const page = async ({ params }: PageProps) => {
           <p className="max-h-40 mt-1 truncate text-xs text-gray-500 ">
             Posted by u/{post?.author.username ?? cachedPostData?.authorUsername}{' '}
             <span className="font-bold">
-            {formatTimeToNow(new Date(post?.createdAt ?? cachedPostData.createdAt))}
+            {formatTimeToNow(new Date(post?.createdAt ?? (cachedPostData?.createdAt ?? new Date())))}
             </span>
           </p>
           <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900 ">
             {post?.title ?? cachedPostData?.title}
           </h1>
 
-            <EditorOutput content={post?.content ?? JSON.parse(cachedPostData.content)} />
+            <EditorOutput content={post?.content ?? (cachedPostData?.content ? JSON.parse(cachedPostData.content) : null)} />
 
           <Suspense fallback={<Loader2 className="h-5 w-5 animate-spin text-zinc-500"/>}>
             {/* @ts-expect-error server component */}
@@ -100,7 +103,7 @@ function PostVoteShell() {
         <ArrowBigDown className="h-5 w-5 text-zinc-700"/>
       </div>
     </div>
-  )
+        )
 }
 
 export default page;

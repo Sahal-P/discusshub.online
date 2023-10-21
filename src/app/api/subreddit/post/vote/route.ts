@@ -5,10 +5,11 @@ import { PostVoteValidator } from "@/lib/validators/vote";
 import { CachedPost } from "@/types/redis";
 import { z } from "zod";
 
-export const CACHE_AFTER_UPVOTES = 1
+// export const CACHE_AFTER_UPVOTES: number = 1
 
 export async function PATCH(req: Request) {
   try {
+    const CACHE_AFTER_UPVOTES: number = 1
     const redis = createRedisInstance()
     const session = await getAuthSession();
     if (!session?.user) {

@@ -1,6 +1,3 @@
-import { getAuthSession } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { SubredditValidator } from "@/lib/validators/subreddit";
 import axios from "axios";
 import { z } from "zod";
 
@@ -38,9 +35,7 @@ export async function  GET(req: Request) {
         if (error instanceof z.ZodError) {
             // 422 unprocessable entity
             return new Response(error.message, { status:422 })
-        }
-        console.log(error);
-        
-        return new Response('Could not create a subreddit', {status: 500})
+        }        
+        return new Response('somthing went wrong.', {status: 500})
     }
 }
